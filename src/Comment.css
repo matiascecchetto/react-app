@@ -1,0 +1,28 @@
+.panel {
+  margin: auto;
+  width: 40%;
+}
+
+.panel-heading {
+  overflow: auto;
+}
+
+.panel-title {
+  padding: 6px 12px;
+}
+
+.panel-footer {
+  text-align: right;
+}
+
+.inline-left {float:left;}
+.inline-right {float:right;}
+
+.comment {
+  margin-bottom: 10px;
+}
+
+.bs-example {
+  margin: auto;
+  width: 50%;
+}
