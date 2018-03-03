@@ -1,5 +1,3 @@
 TODO:
 
-Modify text in show/hide comments button depending on how many comments there are
-
-
+Allow auth when consuming API data
