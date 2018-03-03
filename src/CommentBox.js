@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Comment from './Comment';
 
-class CommentBox extends React.Component {
+class CommentBox extends Component {
 
   constructor() {
     super();
@@ -22,13 +22,11 @@ class CommentBox extends React.Component {
     const comments = this._getComments();
     let opts = {}
     let commentNodes;
-    let buttonText = 'Show comments';
     if (this.state.showComments) {
       commentNodes =
         <div className="comment-list">
           {comments}
         </div>;
-      buttonText = 'Hide comments';
     }
     if (!comments.length) {
       opts['disabled'] = 'disabled';
@@ -45,7 +43,7 @@ class CommentBox extends React.Component {
                 </h4>
               </div>
               <div className="collapse navbar-collapse inline-right" id="bs-example-navbar-collapse-5">
-                <p className="navbar-text navbar-right"><button onClick={this._handleClick.bind(this)} className="btn btn-primary" {...opts}>{buttonText}</button></p>
+                <p className="navbar-text navbar-right"><button onClick={this._handleClick.bind(this)} className="btn btn-primary" {...opts}>{this._getButtonText(comments.length, this.state.showComments)}</button></p>
               </div>
             </div>
           </nav>
@@ -76,6 +74,18 @@ class CommentBox extends React.Component {
       return '1 comment';
     } else {
       return `${commentCount} comments`;
+    }
+  }
+
+  _getButtonText(commentCount, showComments) {
+    if (commentCount > 1 && !showComments) {
+      return 'Show comments';
+    } else if (commentCount > 1 && showComments) {
+      return 'Hide comments';
+    } else if (!(commentCount > 1) && !showComments) {
+      return 'Show comment';
+    } else {
+      return 'Hide comment';
     }
   }
 

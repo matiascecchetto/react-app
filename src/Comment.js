@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './bootstrap/css/bootstrap.css';
 import './Comment.css';
 
-class Comment extends React.Component {
+class Comment extends Component {
   constructor() {
     super();
   }
