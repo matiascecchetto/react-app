@@ -107,7 +107,7 @@ class CommentBox extends Component {
   _fetchComments() {
     jQuery.ajax({
       method: 'GET',
-      url: process.env.REACT_APP_BACKEND_BASEURL,
+      url: 'http://localhost:3001/api/all',
       // contentType: "application/json; charset=utf-8",
       // dataType: "json",
       // xhrFields: {
