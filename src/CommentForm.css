@@ -1,0 +1,18 @@
+.comment-form-fields {
+  margin: auto;
+  width: 40%;
+}
+
+.input-group-addon {
+  width: 20%;
+
+}
+
+.input-group {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+textarea {
+  resize: vertical;
+}

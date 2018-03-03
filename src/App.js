@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import './bootstrap/css/bootstrap.css';
 import Clock from './Clock';
 import CommentBox from './CommentBox';
 

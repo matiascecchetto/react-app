@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
 import Comment from './Comment';
+import CommentForm from './CommentForm';
+import jQuery from 'jquery';
 
 class CommentBox extends Component {
 
   constructor() {
     super();
     this.state = {
-      showComments: false
+      showComments: false,
+      comments: []
     };
   }
 
-  //This hook runs after the component output has been rendered to the DOM
+  // This hook runs after the component output has been rendered to the DOM
   componentDidMount() {
-
+    this._fetchComments();
   }
 
   componentWillUnmount() {
@@ -34,6 +37,7 @@ class CommentBox extends Component {
     return(
       <div className="comment-box">
         <h3>Comments</h3>
+        <CommentForm addComment={this._addComment.bind(this)} />
         <div className="bs-example" data-example-id="navbar-link">
           <nav className="navbar navbar-default">
             <div className="container-fluid">
@@ -54,11 +58,7 @@ class CommentBox extends Component {
   }
 
   _getComments() {
-    const commentList = [
-      { id: 1, author: 'Morgan McCircuit', body: 'Great picture!' },
-      { id: 2, author: 'Bending Bender', body: 'Excellent stuff' }
-    ];
-    return commentList.map(
+    return this.state.comments.map(
       (comment) => {
         return (
           <Comment author={comment.author} body={comment.body} key={comment.id} />
@@ -92,6 +92,40 @@ class CommentBox extends Component {
   _handleClick() {
     this.setState({
       showComments: !this.state.showComments
+    });
+  }
+
+  _addComment(author, body) {
+    const comment = {
+      id: this.state.comments.length + 1,
+      author,
+      body
+    };
+    this.setState({ comments: this.state.comments.concat([comment]) });
+  }
+
+  _fetchComments() {
+    jQuery.ajax({
+      method: 'GET',
+      url: 'http://localhost:3001/api/all',
+      // contentType: "application/json; charset=utf-8",
+      // dataType: "json",
+      // xhrFields: {
+      //   // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
+      //   // This can be used to set the 'withCredentials' property.
+      //   // Set the value to 'true' if you'd like to pass cookies to the server.
+      //   // If this is enabled, your server must respond with the header
+      //   // 'Access-Control-Allow-Credentials: true'.
+      //   withCredentials: false
+      // },
+      // headers: {
+      //   'Access-Control-Allow-Methods': 'GET',
+      //   'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
+      //   'Access-Control-Allow-Origin': 'http:localhost:3001/api/all'
+      // },
+      success: (comments) => {
+        this.setState({comments})
+      }
     });
   }
 
