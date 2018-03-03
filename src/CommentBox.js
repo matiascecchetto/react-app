@@ -107,7 +107,7 @@ class CommentBox extends Component {
   _fetchComments() {
     jQuery.ajax({
       method: 'GET',
-      url: 'http://localhost:3001/api/all',
+      url: 'https://quiz-2018.herokuapp.com/api/all',
       // contentType: "application/json; charset=utf-8",
       // dataType: "json",
       // xhrFields: {
