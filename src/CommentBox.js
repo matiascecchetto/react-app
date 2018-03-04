@@ -15,10 +15,11 @@ class CommentBox extends Component {
 
   // This hook runs after the component output has been rendered to the DOM
   componentDidMount() {
-    this._fetchComments();
+    this._timer = setInterval( () => this._fetchComments(), 5000 );
   }
 
   componentWillUnmount() {
+    clearInterval(this._timer);
   }
 
   render() {
@@ -61,7 +62,7 @@ class CommentBox extends Component {
     return this.state.comments.map(
       (comment) => {
         return (
-          <Comment author={comment.author} body={comment.body} key={comment.id} />
+          <Comment comment={comment} onDelete={this._deleteComment.bind(this)}/>
         );
       }
     );
@@ -96,12 +97,11 @@ class CommentBox extends Component {
   }
 
   _addComment(author, body) {
-    const comment = {
-      id: this.state.comments.length + 1,
-      author,
-      body
-    };
-    this.setState({ comments: this.state.comments.concat([comment]) });
+    const comment = { author, body };
+    jQuery.post(process.env.REACT_APP_BACKEND_URL, { comment })
+      .done( () => {
+        this._fetchComments();
+      });
   }
 
   _fetchComments() {
@@ -125,6 +125,16 @@ class CommentBox extends Component {
       // },
       success: (comments) => {
         this.setState({comments})
+      }
+    });
+  }
+
+  _deleteComment(comment) {
+    jQuery.ajax({
+      method: 'DELETE',
+      url: process.env.REACT_APP_BACKEND_URL + '/' + `${comment.id}`,
+      success: () => {
+        this._fetchComments();
       }
     });
   }

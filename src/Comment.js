@@ -21,17 +21,17 @@ class Comment extends Component {
           <div className="panel-heading">
             <div className="inline-left">
               <h3 className="panel-title">
-                {this.props.author}
+                {this.props.comment.author}
               </h3>
             </div>
             <div className="inline-right">
-              <a href="#" className="btn btn-default">
+              <a href="#" className="btn btn-default" onClick={this._handleDelete.bind(this)}>
                 <span className="glyphicon glyphicon-trash"></span>
               </a>
             </div>
           </div>
           <div className="panel-body">
-            {this.props.body}
+            {this.props.comment.body}
           </div>
           <div className="panel-footer">
             <p>Comment created ...</p>
@@ -40,6 +40,14 @@ class Comment extends Component {
       </div>
     );
   }
+
+  _handleDelete(e) {
+    e.preventDefault();
+    if (window.confirm('Are you sure?')) {
+      this.props.onDelete(this.props.comment);
+    }
+  }
+
 }
 
 export default Comment;

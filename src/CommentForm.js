@@ -21,11 +21,11 @@ class CommentForm extends Component {
         <div className="comment-form-fields">
           <div className="input-group">
             <span className="input-group-addon" id="sizing-addon2">Name: </span>
-            <input type="text" placeholder="What's your name?" className="form-control" aria-describedby="sizing-addon1" ref={(input) => this._author = input}/>
+            <input type="text" name="comment[author]" placeholder="What's your name?" className="form-control" aria-describedby="sizing-addon1" ref={(input) => this._author = input}/>
           </div>
           <div className="input-group input-group-lg">
             <span className="input-group-addon" id="sizing-addon2">Comment: </span>
-            <textarea placeholder="Join the discussion..." className="form-control" aria-describedby="sizing-addon1" maxLength="300" ref={(textarea) => this._body = textarea}></textarea>
+            <textarea name="comment[body]" placeholder="Join the discussion..." className="form-control" aria-describedby="sizing-addon1" maxLength="300" ref={(textarea) => this._body = textarea}></textarea>
           </div>
         </div>
         <div className="comment-form-actions">
