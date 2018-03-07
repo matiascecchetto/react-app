@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Comment from './Comment';
 import CommentForm from './CommentForm';
 import jQuery from 'jquery';
+import Pet from './Pet';
 
 class CommentBox extends Component {
 
@@ -9,6 +10,7 @@ class CommentBox extends Component {
     super();
     this.state = {
       showComments: false,
+      pets: [],
       comments: []
     };
   }
@@ -16,14 +18,17 @@ class CommentBox extends Component {
   // This hook runs after the component output has been rendered to the DOM
   componentDidMount() {
     this._timer = setInterval( () => this._fetchComments(), 5000 );
+    this._timer2 = setInterval( () => this._fetchPets(), 5000 );
   }
 
   componentWillUnmount() {
     clearInterval(this._timer);
+    clearInterval(this._timer2);
   }
 
   render() {
     const comments = this._getComments();
+    const pets = this._getPets();
     let opts = {}
     let commentNodes;
     if (this.state.showComments) {
@@ -54,6 +59,7 @@ class CommentBox extends Component {
           </nav>
         </div>
         {commentNodes}
+        {pets}
       </div>
     );
   }
@@ -63,6 +69,16 @@ class CommentBox extends Component {
       (comment) => {
         return (
           <Comment comment={comment} onDelete={this._deleteComment.bind(this)}/>
+        );
+      }
+    );
+  }
+
+  _getPets() {
+    return this.state.pets.map(
+      (pet) => {
+        return (
+          <Pet pet={pet} key={pet.id}/>
         );
       }
     );
@@ -135,6 +151,31 @@ class CommentBox extends Component {
       url: process.env.REACT_APP_BACKEND_URL + '/' + `${comment.id}`,
       success: () => {
         this._fetchComments();
+      }
+    });
+  }
+
+  _fetchPets() {
+    jQuery.ajax({
+      method: 'GET',
+      url: process.env.REACT_APP_SPRING_BACKEND_URL,
+      // contentType: "application/json; charset=utf-8",
+      // dataType: "json",
+      // xhrFields: {
+      //   // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
+      //   // This can be used to set the 'withCredentials' property.
+      //   // Set the value to 'true' if you'd like to pass cookies to the server.
+      //   // If this is enabled, your server must respond with the header
+      //   // 'Access-Control-Allow-Credentials: true'.
+      //   withCredentials: false
+      // },
+      // headers: {
+      //   'Access-Control-Allow-Methods': 'GET',
+      //   'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
+      //   'Access-Control-Allow-Origin': 'http:localhost:3001/api/all'
+      // },
+      success: (pets) => {
+        this.setState({pets})
       }
     });
   }
